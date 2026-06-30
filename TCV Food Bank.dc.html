@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;scroll-padding-top:84px;}
+  body{margin:0;}
+  :root{
+    --primary:#D93A1C; --primary-dark:#B22C12; --accent:#F2953D;
+    --cream:#FCF8F1; --ink:#2C1C13; --muted:#73594B; --line:#EBDDCE;
+    --radius:20px;
+  }
+  ::selection{background:var(--primary);color:#fff;}
+  @keyframes floatUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+</style>
+</helmet>
+<div ref="{{ root }}" style="font-family:'Hanken Grotesk',system-ui,sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased;">
+
+  <!-- ===== HEADER ===== -->
+  <header style="position:sticky;top:0;z-index:50;background:rgba(252,248,241,0.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);">
+    <div style="max-width:1240px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:20px;">
+      <a href="#home" style="display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink);flex-shrink:0;">
+        <span style="width:42px;height:42px;border-radius:13px;background:var(--primary);display:grid;place-items:center;color:#fff;font-family:'Bricolage Grotesque';font-weight:800;font-size:22px;line-height:1;">T</span>
+        <span style="display:flex;flex-direction:column;line-height:1.05;">
+          <strong style="font-family:'Bricolage Grotesque';font-weight:700;font-size:17px;letter-spacing:-0.01em;">TCV Food Bank</strong>
+          <span style="font-size:11.5px;color:var(--muted);font-weight:500;letter-spacing:0.02em;">+ Mobile Pantry</span>
+        </span>
+      </a>
+      <nav style="margin-left:auto;display:flex;align-items:center;gap:4px;" data-desktop-nav>
+        <a href="#food" style="text-decoration:none;color:var(--ink);font-weight:600;font-size:14.5px;padding:9px 13px;border-radius:10px;">Need Food</a>
+        <a href="#about" style="text-decoration:none;color:var(--ink);font-weight:600;font-size:14.5px;padding:9px 13px;border-radius:10px;">About</a>
+        <a href="#volunteer" style="text-decoration:none;color:var(--ink);font-weight:600;font-size:14.5px;padding:9px 13px;border-radius:10px;">Volunteer</a>
+        <a href="#visit" style="text-decoration:none;color:var(--ink);font-weight:600;font-size:14.5px;padding:9px 13px;border-radius:10px;">Visit</a>
+        <a href="#donate" data-donate-btn="1" style="text-decoration:none;color:#fff;background:var(--primary);font-weight:700;font-size:14.5px;padding:11px 20px;border-radius:12px;margin-left:8px;box-shadow:0 6px 16px -6px var(--primary);">Donate</a>
+      </nav>
+      <button onClick="{{ toggleMenu }}" aria-label="Menu" style="margin-left:auto;display:none;border:1px solid var(--line);background:#fff;border-radius:11px;width:44px;height:44px;cursor:pointer;align-items:center;justify-content:center;flex-direction:column;gap:4px;" data-mobile-btn>
+        <span style="width:18px;height:2px;background:var(--ink);border-radius:2px;"></span>
+        <span style="width:18px;height:2px;background:var(--ink);border-radius:2px;"></span>
+        <span style="width:18px;height:2px;background:var(--ink);border-radius:2px;"></span>
+      </button>
+    </div>
+    <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:8px 16px 18px;display:flex;flex-direction:column;gap:4px;border-top:1px solid var(--line);">
+        <a href="#food" onClick="{{ closeMenu }}" style="text-decoration:none;color:var(--ink);font-weight:600;font-size:16px;padding:13px 14px;border-radius:12px;">Need Food</a>
+        <a href="#about" onClick="{{ closeMenu }}" style="text-decoration:none;color:var(--ink);font-weight:600;font-size:16px;padding:13px 14px;border-radius:12px;">About</a>
+        <a href="#volunteer" onClick="{{ closeMenu }}" style="text-decoration:none;color:var(--ink);font-weight:600;font-size:16px;padding:13px 14px;border-radius:12px;">Volunteer</a>
+        <a href="#visit" onClick="{{ closeMenu }}" style="text-decoration:none;color:var(--ink);font-weight:600;font-size:16px;padding:13px 14px;border-radius:12px;">Visit</a>
+        <a href="#donate" onClick="{{ closeMenu }}" style="text-decoration:none;color:#fff;background:var(--primary);font-weight:700;font-size:16px;padding:14px;border-radius:12px;text-align:center;margin-top:4px;">Donate</a>
+      </div>
+    </sc-if>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section id="home" style="max-width:1240px;margin:0 auto;padding:clamp(40px,7vw,84px) 24px clamp(36px,5vw,60px);display:grid;grid-template-columns:1.05fr 0.95fr;gap:clamp(28px,5vw,64px);align-items:center;" data-hero>
+    <div style="animation:floatUp 0.7s ease both;">
+      <div style="display:inline-flex;align-items:center;gap:8px;background:#FBEADF;color:var(--primary-dark);font-weight:600;font-size:13.5px;padding:7px 14px;border-radius:999px;margin-bottom:22px;">
+        <span style="width:8px;height:8px;border-radius:50%;background:#2F8A57;box-shadow:0 0 0 4px rgba(47,138,87,0.18);"></span>
+        Serving the Tri-City: Fremont · Newark · Union City
+      </div>
+      <h1 style="font-family:'Bricolage Grotesque';font-weight:800;font-size:clamp(38px,6vw,68px);line-height:1.02;letter-spacing:-0.025em;margin:0 0 20px;">No neighbor should go hungry.</h1>
+      <p style="font-size:clamp(16px,1.8vw,20px);line-height:1.55;color:var(--muted);max-width:30em;margin:0 0 30px;">TCV is the largest client-direct hunger relief organization in Alameda County. Fresh groceries, a welcoming marketplace, and a mobile pantry that comes to you — free, with dignity, no questions asked.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;">
+        <a href="#food" style="text-decoration:none;color:#fff;background:var(--primary);font-weight:700;font-size:16px;padding:15px 26px;border-radius:14px;box-shadow:0 10px 24px -10px var(--primary);">Find food near me →</a>
+        <a href="#volunteer" style="text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);font-weight:700;font-size:16px;padding:15px 26px;border-radius:14px;">Volunteer with us</a>
+      </div>
+    </div>
+    <div style="position:relative;">
+      <div style="aspect-ratio:4/5;border-radius:var(--radius);overflow:hidden;background:repeating-linear-gradient(135deg,#F4E7D9,#F4E7D9 14px,#EFDECB 14px,#EFDECB 28px);display:grid;place-items:center;border:1px solid var(--line);">
+        <span style="font-family:ui-monospace,monospace;font-size:13px;color:#A88B72;background:rgba(252,248,241,0.7);padding:8px 14px;border-radius:8px;">photo — volunteers + fresh produce</span>
+      </div>
+      <div style="position:absolute;left:-14px;bottom:24px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 20px;box-shadow:0 18px 40px -18px rgba(44,28,19,0.4);max-width:230px;">
+        <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:15px;margin-bottom:4px;">Marketplace open today</div>
+        <div style="font-size:13.5px;color:var(--muted);">Shop free groceries like a store. <strong style="color:var(--primary-dark);">See hours ↓</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== QUICK ACTIONS STRIP ===== -->
+  <section style="max-width:1240px;margin:0 auto;padding:8px 24px clamp(40px,6vw,72px);">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;" data-actions>
+      <a href="#food" style="text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:26px;display:flex;flex-direction:column;gap:10px;transition:transform .18s,box-shadow .18s;" style-hover="transform:translateY(-4px);box-shadow:0 18px 36px -20px rgba(44,28,19,0.5);">
+        <span style="width:46px;height:46px;border-radius:13px;background:#FBEADF;display:grid;place-items:center;font-size:24px;">🥕</span>
+        <strong style="font-family:'Bricolage Grotesque';font-weight:700;font-size:20px;">Get food</strong>
+        <span style="font-size:14.5px;color:var(--muted);line-height:1.45;">Marketplace hours & mobile pantry stops near you.</span>
+        <span style="color:var(--primary-dark);font-weight:700;font-size:14.5px;margin-top:auto;">View locations →</span>
+      </a>
+      <a href="#volunteer" style="text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:26px;display:flex;flex-direction:column;gap:10px;transition:transform .18s,box-shadow .18s;" style-hover="transform:translateY(-4px);box-shadow:0 18px 36px -20px rgba(44,28,19,0.5);">
+        <span style="width:46px;height:46px;border-radius:13px;background:#FBEADF;display:grid;place-items:center;font-size:24px;">🤝</span>
+        <strong style="font-family:'Bricolage Grotesque';font-weight:700;font-size:20px;">Volunteer</strong>
+        <span style="font-size:14.5px;color:var(--muted);line-height:1.45;">Sort, pack, and welcome neighbors. A few hours changes lives.</span>
+        <span style="color:var(--primary-dark);font-weight:700;font-size:14.5px;margin-top:auto;">Sign up →</span>
+      </a>
+      <a href="#donate" style="text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:26px;display:flex;flex-direction:column;gap:10px;transition:transform .18s,box-shadow .18s;" style-hover="transform:translateY(-4px);box-shadow:0 18px 36px -20px rgba(44,28,19,0.5);">
+        <span style="width:46px;height:46px;border-radius:13px;background:#FBEADF;display:grid;place-items:center;font-size:24px;">❤️</span>
+        <strong style="font-family:'Bricolage Grotesque';font-weight:700;font-size:20px;">Donate</strong>
+        <span style="font-size:14.5px;color:var(--muted);line-height:1.45;">Give funds, food, or clothing. Every dollar stretches into meals.</span>
+        <span style="color:var(--primary-dark);font-weight:700;font-size:14.5px;margin-top:auto;">Give today →</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== FIND FOOD ===== -->
+  <section id="food" style="background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+    <div style="max-width:1240px;margin:0 auto;padding:clamp(48px,7vw,88px) 24px;">
+      <div style="max-width:42em;margin-bottom:clamp(28px,4vw,44px);">
+        <div style="font-family:'Bricolage Grotesque';color:var(--primary);font-weight:700;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px;">Need food?</div>
+        <h2 style="font-family:'Bricolage Grotesque';font-weight:800;font-size:clamp(28px,4.2vw,46px);line-height:1.05;letter-spacing:-0.02em;margin:0 0 14px;">Two ways to get groceries — both free.</h2>
+        <p style="font-size:clamp(15px,1.6vw,18px);color:var(--muted);line-height:1.55;margin:0;">Everyone in our community is welcome. No appointment, no proof of income, no judgment.</p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;" data-food-grid>
+        <!-- Marketplace -->
+        <div style="border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--cream);">
+          <div style="background:var(--primary);color:#fff;padding:22px 26px;">
+            <div style="font-family:'Bricolage Grotesque';font-weight:800;font-size:24px;">TCV Marketplace</div>
+            <div style="font-size:14.5px;opacity:0.92;margin-top:2px;">Shop free groceries like a grocery store</div>
+          </div>
+          <div style="padding:24px 26px;">
+            <div style="font-size:13px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">Weekly hours</div>
+            <ul style="list-style:none;margin:0 0 20px;padding:0;display:flex;flex-direction:column;gap:0;">
+              <li style="display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--line);font-size:15.5px;"><span style="font-weight:600;">Mon · Wed · Fri</span><span style="color:var(--muted);">9:00 AM – 12:00 PM</span></li>
+              <li style="display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--line);font-size:15.5px;"><span style="font-weight:600;">Tue · Thu</span><span style="color:var(--muted);">1:00 PM – 4:00 PM</span></li>
+              <li style="display:flex;justify-content:space-between;padding:11px 0;font-size:15.5px;"><span style="font-weight:600;">Saturday</span><span style="color:var(--muted);">9:00 AM – 11:00 AM</span></li>
+            </ul>
+            <div style="display:flex;align-items:flex-start;gap:10px;background:#FBEADF;border-radius:12px;padding:13px 15px;font-size:14px;color:var(--primary-dark);line-height:1.45;">
+              <span style="font-size:16px;">📍</span><span>37350 Joseph St, Fremont, CA 94536</span>
+            </div>
+            <a href="#visit" style="display:inline-block;margin-top:16px;text-decoration:none;color:var(--primary-dark);font-weight:700;font-size:15px;">Get directions →</a>
+          </div>
+        </div>
+        <!-- Mobile pantry -->
+        <div style="border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--cream);">
+          <div style="background:var(--ink);color:#fff;padding:22px 26px;">
+            <div style="font-family:'Bricolage Grotesque';font-weight:800;font-size:24px;">Mobile Pantry</div>
+            <div style="font-size:14.5px;opacity:0.85;margin-top:2px;">We bring fresh food into the neighborhoods</div>
+          </div>
+          <div style="padding:24px 26px;">
+            <div style="font-size:13px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">This week's stops</div>
+            <ul style="list-style:none;margin:0 0 18px;padding:0;display:flex;flex-direction:column;gap:10px;">
+              <li style="display:flex;gap:13px;align-items:flex-start;"><span style="font-family:'Bricolage Grotesque';font-weight:700;color:var(--primary);font-size:13px;width:44px;flex-shrink:0;padding-top:2px;">MON</span><span style="font-size:15px;line-height:1.4;"><strong>Centerville, Fremont</strong><br><span style="color:var(--muted);font-size:14px;">10:00 AM – 11:30 AM</span></span></li>
+              <li style="display:flex;gap:13px;align-items:flex-start;"><span style="font-family:'Bricolage Grotesque';font-weight:700;color:var(--primary);font-size:13px;width:44px;flex-shrink:0;padding-top:2px;">WED</span><span style="font-size:15px;line-height:1.4;"><strong>Old Town, Newark</strong><br><span style="color:var(--muted);font-size:14px;">1:00 PM – 2:30 PM</span></span></li>
+              <li style="display:flex;gap:13px;align-items:flex-start;"><span style="font-family:'Bricolage Grotesque';font-weight:700;color:var(--primary);font-size:13px;width:44px;flex-shrink:0;padding-top:2px;">FRI</span><span style="font-size:15px;line-height:1.4;"><strong>Union City Civic Center</strong><br><span style="color:var(--muted);font-size:14px;">10:00 AM – 11:30 AM</span></span></li>
+            </ul>
+            <div style="font-size:13px;color:var(--muted);font-style:italic;">Stops rotate weekly — call ahead to confirm.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 211 helper -->
+      <div style="margin-top:24px;display:flex;flex-wrap:wrap;align-items:center;gap:18px;justify-content:space-between;background:linear-gradient(100deg,#FBEADF,#FCF8F1);border:1px solid var(--line);border-radius:var(--radius);padding:24px 28px;">
+        <div style="display:flex;align-items:center;gap:16px;">
+          <span style="font-family:'Bricolage Grotesque';font-weight:800;font-size:30px;color:var(--primary);background:#fff;border-radius:14px;padding:8px 16px;border:1px solid var(--line);">211</span>
+          <div>
+            <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:18px;">Need more than food?</div>
+            <div style="font-size:14.5px;color:var(--muted);">Call 211 for free, confidential help with housing, health & more in Alameda County.</div>
+          </div>
+        </div>
+        <a href="tel:211" style="text-decoration:none;color:#fff;background:var(--primary);font-weight:700;font-size:15px;padding:13px 24px;border-radius:12px;white-space:nowrap;">Call 211</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ABOUT / MISSION ===== -->
+  <section id="about" style="max-width:1240px;margin:0 auto;padding:clamp(52px,8vw,100px) 24px;display:grid;grid-template-columns:0.9fr 1.1fr;gap:clamp(32px,5vw,72px);align-items:center;" data-about>
+    <div style="aspect-ratio:1/1;border-radius:var(--radius);overflow:hidden;background:repeating-linear-gradient(135deg,#F4E7D9,#F4E7D9 14px,#EFDECB 14px,#EFDECB 28px);display:grid;place-items:center;border:1px solid var(--line);">
+      <span style="font-family:ui-monospace,monospace;font-size:13px;color:#A88B72;background:rgba(252,248,241,0.7);padding:8px 14px;border-radius:8px;">photo — TCV warehouse</span>
+    </div>
+    <div>
+      <div style="font-family:'Bricolage Grotesque';color:var(--primary);font-weight:700;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px;">Our mission</div>
+      <h2 style="font-family:'Bricolage Grotesque';font-weight:800;font-size:clamp(28px,4.2vw,46px);line-height:1.06;letter-spacing:-0.02em;margin:0 0 18px;">Food is a right, not a privilege.</h2>
+      <p style="font-size:clamp(15px,1.6vw,18px);color:var(--muted);line-height:1.6;margin:0 0 26px;max-width:34em;">For decades, Tri-City Volunteers has met our neighbors where they are — with groceries, clothing, and a community that shows up. We rescue good food that would go to waste and put it directly into the hands of families who need it.</p>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;">
+        <div style="border-left:3px solid var(--primary);padding-left:16px;">
+          <div style="font-family:'Bricolage Grotesque';font-weight:800;font-size:clamp(24px,3vw,34px);">100%</div>
+          <div style="font-size:13.5px;color:var(--muted);line-height:1.35;margin-top:2px;">Free for everyone we serve</div>
+        </div>
+        <div style="border-left:3px solid var(--primary);padding-left:16px;">
+          <div style="font-family:'Bricolage Grotesque';font-weight:800;font-size:clamp(24px,3vw,34px);">3</div>
+          <div style="font-size:13.5px;color:var(--muted);line-height:1.35;margin-top:2px;">Cities across the Tri-City area</div>
+        </div>
+        <div style="border-left:3px solid var(--primary);padding-left:16px;">
+          <div style="font-family:'Bricolage Grotesque';font-weight:800;font-size:clamp(24px,3vw,34px);">#1</div>
+          <div style="font-size:13.5px;color:var(--muted);line-height:1.35;margin-top:2px;">Client-direct hunger relief in the county</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== VOLUNTEER ===== -->
+  <section id="volunteer" style="background:var(--ink);color:#fff;">
+    <div style="max-width:1240px;margin:0 auto;padding:clamp(52px,8vw,100px) 24px;display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,72px);align-items:center;" data-vol>
+      <div>
+        <div style="font-family:'Bricolage Grotesque';color:var(--accent);font-weight:700;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px;">Volunteer</div>
+        <h2 style="font-family:'Bricolage Grotesque';font-weight:800;font-size:clamp(28px,4.2vw,46px);line-height:1.06;letter-spacing:-0.02em;margin:0 0 18px;">A few hours. A whole lot of impact.</h2>
+        <p style="font-size:clamp(15px,1.6vw,18px);color:rgba(255,255,255,0.72);line-height:1.6;margin:0 0 28px;max-width:32em;">No experience needed — just a willingness to help. Sort donations, stock the marketplace, welcome neighbors, or ride along with the mobile pantry.</p>
+        <a href="https://tcvfoodbank.org/volunteer/" style="text-decoration:none;color:var(--ink);background:#fff;font-weight:700;font-size:16px;padding:15px 28px;border-radius:14px;display:inline-block;">Become a volunteer →</a>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:22px;">
+          <div style="font-size:26px;margin-bottom:10px;">📦</div>
+          <strong style="font-family:'Bricolage Grotesque';font-weight:700;font-size:17px;">Sort & pack</strong>
+          <p style="font-size:14px;color:rgba(255,255,255,0.66);line-height:1.45;margin:6px 0 0;">Prep groceries for the marketplace floor.</p>
+        </div>
+        <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:22px;margin-top:24px;">
+          <div style="font-size:26px;margin-bottom:10px;">🚚</div>
+          <strong style="font-family:'Bricolage Grotesque';font-weight:700;font-size:17px;">Mobile pantry</strong>
+          <p style="font-size:14px;color:rgba(255,255,255,0.66);line-height:1.45;margin:6px 0 0;">Bring food into the neighborhoods.</p>
+        </div>
+        <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:22px;">
+          <div style="font-size:26px;margin-bottom:10px;">🧺</div>
+          <strong style="font-family:'Bricolage Grotesque';font-weight:700;font-size:17px;">Welcome desk</strong>
+          <p style="font-size:14px;color:rgba(255,255,255,0.66);line-height:1.45;margin:6px 0 0;">Greet and guide our shoppers.</p>
+        </div>
+        <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:22px;margin-top:24px;">
+          <div style="font-size:26px;margin-bottom:10px;">👕</div>
+          <strong style="font-family:'Bricolage Grotesque';font-weight:700;font-size:17px;">Clothing closet</strong>
+          <p style="font-size:14px;color:rgba(255,255,255,0.66);line-height:1.45;margin:6px 0 0;">Organize donated clothes in Fremont.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DONATE BAND ===== -->
+  <section id="donate" style="max-width:1240px;margin:0 auto;padding:clamp(52px,8vw,100px) 24px;">
+    <div style="background:var(--primary);border-radius:clamp(20px,3vw,32px);padding:clamp(36px,5vw,68px);color:#fff;display:grid;grid-template-columns:1.1fr 0.9fr;gap:clamp(28px,4vw,56px);align-items:center;" data-donate>
+      <div>
+        <div style="font-family:'Bricolage Grotesque';color:rgba(255,255,255,0.8);font-weight:700;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px;">Donate</div>
+        <h2 style="font-family:'Bricolage Grotesque';font-weight:800;font-size:clamp(28px,4.2vw,48px);line-height:1.04;letter-spacing:-0.02em;margin:0 0 16px;">Turn $1 into meals for a neighbor.</h2>
+        <p style="font-size:clamp(15px,1.6vw,18px);color:rgba(255,255,255,0.85);line-height:1.55;margin:0 0 28px;max-width:30em;">Your gift buys fresh produce, keeps the marketplace stocked, and fuels the mobile pantry. Give once or monthly — it all goes straight to the table.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;">
+          <a href="https://tri-city-volunteers-inc.networkforgood.com/projects/84219-homepage-campaign" style="text-decoration:none;color:var(--primary-dark);background:#fff;font-weight:700;font-size:16px;padding:15px 28px;border-radius:14px;">Donate now</a>
+          <a href="#visit" style="text-decoration:none;color:#fff;border:1.5px solid rgba(255,255,255,0.6);font-weight:700;font-size:16px;padding:15px 28px;border-radius:14px;">Drop off food or clothes</a>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div style="background:rgba(255,255,255,0.14);border-radius:16px;padding:18px 22px;display:flex;align-items:center;gap:16px;"><span style="font-family:'Bricolage Grotesque';font-weight:800;font-size:26px;">$25</span><span style="font-size:15px;color:rgba(255,255,255,0.9);">A week of groceries for a family</span></div>
+        <div style="background:rgba(255,255,255,0.14);border-radius:16px;padding:18px 22px;display:flex;align-items:center;gap:16px;"><span style="font-family:'Bricolage Grotesque';font-weight:800;font-size:26px;">$50</span><span style="font-size:15px;color:rgba(255,255,255,0.9);">Fresh produce for a mobile pantry stop</span></div>
+        <div style="background:rgba(255,255,255,0.14);border-radius:16px;padding:18px 22px;display:flex;align-items:center;gap:16px;"><span style="font-family:'Bricolage Grotesque';font-weight:800;font-size:26px;">$100</span><span style="font-size:15px;color:rgba(255,255,255,0.9);">Stocks the marketplace for a day</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== VISIT / CONTACT ===== -->
+  <section id="visit" style="background:#fff;border-top:1px solid var(--line);">
+    <div style="max-width:1240px;margin:0 auto;padding:clamp(48px,7vw,88px) 24px;display:grid;grid-template-columns:0.85fr 1.15fr;gap:clamp(28px,4vw,56px);align-items:stretch;" data-visit>
+      <div>
+        <div style="font-family:'Bricolage Grotesque';color:var(--primary);font-weight:700;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px;">Visit us</div>
+        <h2 style="font-family:'Bricolage Grotesque';font-weight:800;font-size:clamp(26px,3.6vw,42px);line-height:1.06;letter-spacing:-0.02em;margin:0 0 24px;">Come on in.</h2>
+        <div style="display:flex;flex-direction:column;gap:20px;">
+          <div style="display:flex;gap:14px;align-items:flex-start;"><span style="font-size:20px;">📍</span><div><div style="font-weight:700;font-size:16px;">Address</div><div style="color:var(--muted);font-size:15px;line-height:1.45;">37350 Joseph St<br>Fremont, CA 94536</div></div></div>
+          <div style="display:flex;gap:14px;align-items:flex-start;"><span style="font-size:20px;">📞</span><div><div style="font-weight:700;font-size:16px;">Phone</div><a href="tel:5107934583" style="color:var(--primary-dark);font-size:15px;text-decoration:none;font-weight:600;">510.793.4583</a></div></div>
+          <div style="display:flex;gap:14px;align-items:flex-start;"><span style="font-size:20px;">🕘</span><div><div style="font-weight:700;font-size:16px;">Marketplace hours</div><div style="color:var(--muted);font-size:15px;line-height:1.45;">Mon–Sat — see schedule above</div></div></div>
+        </div>
+      </div>
+      <a href="https://maps.google.com/?q=37350+Joseph+St+Fremont+CA+94536" style="text-decoration:none;border-radius:var(--radius);overflow:hidden;background:repeating-linear-gradient(135deg,#EAF0E8,#EAF0E8 16px,#E2EAE0 16px,#E2EAE0 32px);display:grid;place-items:center;min-height:300px;border:1px solid var(--line);">
+        <span style="font-family:ui-monospace,monospace;font-size:13px;color:#7E8C78;background:rgba(255,255,255,0.85);padding:10px 16px;border-radius:8px;">map — 37350 Joseph St, Fremont · tap for directions</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer style="background:var(--cream);border-top:1px solid var(--line);">
+    <div style="max-width:1240px;margin:0 auto;padding:clamp(40px,5vw,64px) 24px 28px;">
+      <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px;" data-foot>
+        <div>
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+            <span style="width:42px;height:42px;border-radius:13px;background:var(--primary);display:grid;place-items:center;color:#fff;font-family:'Bricolage Grotesque';font-weight:800;font-size:22px;">T</span>
+            <span style="font-family:'Bricolage Grotesque';font-weight:700;font-size:17px;">TCV Food Bank + Mobile Pantry</span>
+          </div>
+          <p style="font-size:14.5px;color:var(--muted);line-height:1.55;margin:0 0 16px;max-width:30em;">The largest client-direct hunger relief organization in Alameda County. Free food, clothing, and community for the Tri-City.</p>
+          <div style="display:flex;gap:10px;">
+            <a href="https://www.facebook.com/TriCityVolunteers/" style="text-decoration:none;width:40px;height:40px;border-radius:11px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;color:var(--ink);font-weight:700;font-size:15px;">f</a>
+            <a href="https://www.instagram.com/tricityvolunteers/" style="text-decoration:none;width:40px;height:40px;border-radius:11px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;color:var(--ink);font-size:18px;">◎</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-weight:700;font-size:14px;margin-bottom:14px;">Get help</div>
+          <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px;">
+            <li><a href="#food" style="text-decoration:none;color:var(--muted);font-size:14.5px;">Need food</a></li>
+            <li><a href="#food" style="text-decoration:none;color:var(--muted);font-size:14.5px;">Mobile pantry</a></li>
+            <li><a href="tel:211" style="text-decoration:none;color:var(--muted);font-size:14.5px;">Call 211</a></li>
+            <li><a href="#visit" style="text-decoration:none;color:var(--muted);font-size:14.5px;">Directions</a></li>
+          </ul>
+        </div>
+        <div>
+          <div style="font-weight:700;font-size:14px;margin-bottom:14px;">Support us</div>
+          <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px;">
+            <li><a href="#donate" style="text-decoration:none;color:var(--muted);font-size:14.5px;">Donate</a></li>
+            <li><a href="#volunteer" style="text-decoration:none;color:var(--muted);font-size:14.5px;">Volunteer</a></li>
+            <li><a href="#donate" style="text-decoration:none;color:var(--muted);font-size:14.5px;">Donate clothing</a></li>
+            <li><a href="#about" style="text-decoration:none;color:var(--muted);font-size:14.5px;">About us</a></li>
+          </ul>
+        </div>
+      </div>
+      <div style="margin-top:36px;padding-top:22px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;font-size:13px;color:var(--muted);">
+        <span>© 2026 TCV Food Bank + Mobile Pantry · 37350 Joseph St, Fremont, CA 94536 · 510.793.4583</span>
+        <span>Made with care for our neighbors.</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:900},&quot;primaryColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#D93A1C&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;accentColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#F2953D&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;cornerStyle&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;sharp&quot;,&quot;soft&quot;,&quot;round&quot;],&quot;default&quot;:&quot;soft&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  state = { menuOpen: false };
+
+  componentDidMount() {
+    this.applyTheme(); this.applyResponsive();
+    window.addEventListener('resize', this._r = () => this.applyResponsive());
+    window.addEventListener('scroll', this._s = () => this.spy(), { passive: true, capture: true });
+    this.spy();
+  }
+  componentDidUpdate() { this.applyTheme(); }
+  componentWillUnmount() {
+    if (this._r) window.removeEventListener('resize', this._r);
+    if (this._s) window.removeEventListener('scroll', this._s, { capture: true });
+  }
+
+  spy() {
+    if (this._raf) return;
+    this._raf = requestAnimationFrame(() => {
+      this._raf = null;
+      const root = this.refs && this.refs.root; if (!root) return;
+      const links = [...root.querySelectorAll('[data-desktop-nav] a[href^="#"]')];
+      let current = null;
+      links.forEach(a => {
+        const sec = document.getElementById(a.getAttribute('href').slice(1));
+        if (sec && sec.getBoundingClientRect().top <= 140) current = a;
+      });
+      links.forEach(a => {
+        if (a.dataset.donateBtn) return;
+        const on = a === current;
+        a.style.background = on ? '#FBEADF' : 'transparent';
+        a.style.color = on ? 'var(--primary-dark)' : 'var(--ink)';
+      });
+    });
+  }
+
+  applyTheme() {
+    const r = document.documentElement;
+    if (this.props.primaryColor) { r.style.setProperty('--primary', this.props.primaryColor); }
+    if (this.props.accentColor) { r.style.setProperty('--accent', this.props.accentColor); }
+    if (this.props.cornerStyle === 'sharp') r.style.setProperty('--radius', '6px');
+    else if (this.props.cornerStyle === 'round') r.style.setProperty('--radius', '26px');
+  }
+
+  applyResponsive() {
+    const root = this.refs && this.refs.root; if (!root) return;
+    const w = window.innerWidth;
+    const set = (sel, styles) => { const el = root.querySelector(sel); if (el) Object.assign(el.style, styles); };
+    const mob = w < 760, tab = w < 1000;
+    set('[data-desktop-nav]', { display: mob ? 'none' : 'flex' });
+    set('[data-mobile-btn]', { display: mob ? 'flex' : 'none' });
+    if (!mob && this.state.menuOpen) this.setState({ menuOpen: false });
+    set('[data-hero]', { gridTemplateColumns: tab ? '1fr' : '1.05fr 0.95fr' });
+    set('[data-actions]', { gridTemplateColumns: mob ? '1fr' : 'repeat(3,1fr)' });
+    set('[data-food-grid]', { gridTemplateColumns: tab ? '1fr' : '1fr 1fr' });
+    set('[data-about]', { gridTemplateColumns: tab ? '1fr' : '0.9fr 1.1fr' });
+    set('[data-vol]', { gridTemplateColumns: tab ? '1fr' : '1fr 1fr' });
+    set('[data-donate]', { gridTemplateColumns: tab ? '1fr' : '1.1fr 0.9fr' });
+    set('[data-visit]', { gridTemplateColumns: tab ? '1fr' : '0.85fr 1.15fr' });
+    set('[data-foot]', { gridTemplateColumns: mob ? '1fr' : (tab ? '1fr 1fr' : '1.4fr 1fr 1fr') });
+  }
+
+  renderVals() {
+    return {
+      root: (el) => { this.refs = this.refs || {}; this.refs.root = el; if (el) this.applyResponsive(); },
+      menuOpen: this.state.menuOpen,
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      closeMenu: () => this.setState({ menuOpen: false }),
+    };
+  }
+}
+</script>
+</body>
+</html>
