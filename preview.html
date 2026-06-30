@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>TCV Food Bank — Responsive Preview</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Hanken Grotesk',system-ui,sans-serif;background:#F0F4F8;height:100vh;display:flex;flex-direction:column;overflow:hidden;}
+
+  #bar{
+    height:56px;background:#fff;border-bottom:1px solid #DDE3EA;
+    display:flex;align-items:center;padding:0 20px;gap:12px;flex-shrink:0;
+  }
+  .site-mark{display:flex;align-items:center;gap:8px;margin-right:8px;}
+  .site-mark .logo{width:26px;height:26px;border-radius:7px;background:#2D7A4F;display:grid;place-items:center;color:#fff;font-weight:800;font-size:13px;}
+  .site-mark .name{font-weight:700;font-size:14px;color:#142B1F;}
+  .badge{font-size:11px;color:#4A6558;background:#E8F5EE;padding:2px 8px;border-radius:999px;font-weight:600;}
+  .divider{width:1px;height:24px;background:#DDE3EA;}
+
+  #picker{display:flex;gap:3px;background:#F0F4F8;border-radius:9px;padding:3px;}
+  #picker button{
+    display:flex;align-items:center;gap:6px;padding:5px 13px;border-radius:6px;
+    border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:500;
+    background:transparent;color:#4A6558;transition:all .15s;
+  }
+  #picker button.active{background:#fff;color:#142B1F;font-weight:700;box-shadow:0 1px 4px rgba(0,0,0,0.1);}
+
+  .spacer{flex:1;}
+  #reload-btn{border:1px solid #DDE3EA;background:#fff;border-radius:8px;width:32px;height:32px;cursor:pointer;display:grid;place-items:center;color:#4A6558;}
+
+  #preview{flex:1;display:flex;justify-content:center;overflow:hidden;}
+  #preview iframe{border:none;display:block;background:#fff;}
+</style>
+</head>
+<body>
+
+<div id="bar">
+  <div class="site-mark">
+    <div class="logo">T</div>
+    <span class="name">TCV Food Bank</span>
+    <span class="badge">Redesign Preview</span>
+  </div>
+  <div class="divider"></div>
+
+  <div id="picker">
+    <button data-w="390"  onclick="setDevice(this)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="18" r="1" fill="currentColor" stroke="none"/></svg>
+      Mobile
+    </button>
+    <button data-w="768"  onclick="setDevice(this)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="18" rx="2"/><circle cx="19" cy="12" r="1" fill="currentColor" stroke="none"/></svg>
+      Tablet
+    </button>
+    <button data-w="1280" onclick="setDevice(this)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M0 21h24"/><path d="M7 21l2-4h6l2 4"/></svg>
+      Laptop
+    </button>
+    <button data-w="1440" onclick="setDevice(this)" class="active">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>
+      Desktop
+    </button>
+  </div>
+
+  <div class="spacer"></div>
+
+  <button id="reload-btn" onclick="reload()" title="Reload">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+  </button>
+</div>
+
+<div id="preview"></div>
+
+<script>
+  const PAGE_URL = 'TCV%20Food%20Bank.dc.html';
+
+  let currentW = 1440;
+
+  function setDevice(btn) {
+    document.querySelectorAll('#picker button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentW = parseInt(btn.dataset.w);
+    render();
+  }
+
+  function reload() { render(); }
+
+  function render() {
+    const preview = document.getElementById('preview');
+    const barH = document.getElementById('bar').offsetHeight;
+    const canvasW = window.innerWidth;
+    const canvasH = window.innerHeight - barH;
+
+    preview.innerHTML = '';
+    preview.style.background = currentW < 1080 ? '#E4E9EF' : '#fff';
+
+    const scale = Math.min(canvasW / currentW, 1);
+    const iframeH = canvasH / scale;
+
+    const wrap = document.createElement('div');
+    wrap.style.cssText = `transform-origin:top left;transform:scale(${scale});width:${currentW}px;height:${iframeH}px;flex-shrink:0;`;
+
+    const iframe = document.createElement('iframe');
+    iframe.src = PAGE_URL;
+    iframe.style.cssText = `width:${currentW}px;height:${iframeH}px;border:none;display:block;background:#fff;`;
+    iframe.title = 'Preview';
+
+    wrap.appendChild(iframe);
+    preview.appendChild(wrap);
+  }
+
+  window.addEventListener('resize', render);
+  render();
+</script>
+
+</body>
+</html>
